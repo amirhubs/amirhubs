@@ -32,7 +32,8 @@ import {
   Eye,
   Check,
   Layers,
-  Menu
+  Menu,
+  FileSpreadsheet
 } from 'lucide-react';
 import { ToolId } from './types';
 import { cn } from './lib/utils';
@@ -52,7 +53,6 @@ import { db } from './lib/firebase';
 // Tool Components
 import Lexicon from './components/tools/Lexicon';
 import Chronos from './components/tools/Chronos';
-import Forge from './components/tools/Forge';
 
 interface BentoProps {
   id: ToolId;
@@ -112,9 +112,9 @@ const BentoCard = ({ id, title, description, icon: Icon, color, url, className, 
             id === 'vision' && "bg-indigo-500/20 text-indigo-400 border-indigo-500/30 shadow-indigo-500/10",
             id === 'lexicon' && "bg-amber-500/20 text-amber-400 border-amber-500/30 shadow-amber-500/10",
             id === 'chronos' && "bg-emerald-500/20 text-emerald-400 border-emerald-500/30 shadow-emerald-500/10",
-            id === 'forge' && "bg-rose-500/20 text-rose-400 border-rose-500/30 shadow-rose-500/10",
             id === 'svg-preview' && "bg-teal-500/20 text-teal-400 border-teal-500/30 shadow-teal-500/10",
             id === 'png-to-svg' && "bg-cyan-500/20 text-cyan-400 border-cyan-500/30 shadow-cyan-500/10",
+            id === 'csv-gen' && "bg-orange-500/20 text-orange-400 border-orange-500/30 shadow-orange-500/10",
           )}>
             <Icon size={24} />
           </div>
@@ -144,9 +144,9 @@ const BentoCard = ({ id, title, description, icon: Icon, color, url, className, 
         id === 'vision' && "bg-indigo-500",
         id === 'lexicon' && "bg-amber-500",
         id === 'chronos' && "bg-emerald-500",
-        id === 'forge' && "bg-rose-500",
         id === 'svg-preview' && "bg-teal-500",
         id === 'png-to-svg' && "bg-cyan-500",
+        id === 'csv-gen' && "bg-orange-500",
       )} />
     </CardWrapper>
   );
@@ -229,7 +229,7 @@ export default function App() {
   
   // Dashboard Customization
   const [isEditMode, setIsEditMode] = useState(false);
-  const [visibleToolIds, setVisibleToolIds] = useState<ToolId[]>(['vision', 'svg-preview', 'png-to-svg', 'lexicon', 'chronos', 'forge']);
+  const [visibleToolIds, setVisibleToolIds] = useState<ToolId[]>(['vision', 'svg-preview', 'png-to-svg', 'csv-gen', 'lexicon', 'chronos']);
   const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -252,7 +252,7 @@ export default function App() {
   };
 
   const restoreLayout = () => {
-    setVisibleToolIds(['vision', 'svg-preview', 'png-to-svg', 'lexicon', 'chronos', 'forge']);
+    setVisibleToolIds(['vision', 'svg-preview', 'png-to-svg', 'csv-gen', 'lexicon', 'chronos']);
     setIsEditMode(false);
   };
 
@@ -424,7 +424,7 @@ export default function App() {
       description: 'Professional suite for viewing and inspecting vector graphics.',
       icon: Eye,
       color: 'transparent',
-      url: 'https://ais-pre-sdamua2ynctgmcg5dnzbld-742219517014.asia-southeast1.run.app',
+      url: 'https://svg-code-previewer-amir.vercel.app/',
       className: 'md:col-span-1 md:row-span-1',
     },
     {
@@ -434,6 +434,15 @@ export default function App() {
       icon: Layers,
       color: 'transparent',
       url: 'https://batch-png-svg--matador2panna.replit.app',
+      className: 'md:col-span-1 md:row-span-1',
+    },
+    {
+      id: 'csv-gen' as ToolId,
+      title: 'CSV Metadata Generator',
+      description: 'Streamlined metadata generation and CSV processing toolset.',
+      icon: FileSpreadsheet,
+      color: 'transparent',
+      url: 'https://amrhubscsv.vercel.app',
       className: 'md:col-span-1 md:row-span-1',
     },
     {
@@ -460,15 +469,6 @@ export default function App() {
           ))}
         </div>
       )
-    },
-    {
-      id: 'forge' as ToolId,
-      title: 'CSV Metadata Generator',
-      description: 'Batch generate high-quality metadata for library submissions.',
-      icon: Database,
-      color: 'transparent',
-      url: 'https://ais-pre-ok5nx4fp6l4dvz2eb5brfy-742219517014.asia-southeast1.run.app',
-      className: 'md:col-span-1 md:row-span-1',
     }
   ];
 
@@ -484,7 +484,6 @@ export default function App() {
     switch (activeTool) {
       case 'lexicon': return <Lexicon />;
       case 'chronos': return <Chronos />;
-      case 'forge': return <Forge />;
       default: return null;
     }
   };
@@ -581,9 +580,9 @@ export default function App() {
                             tool.id === 'vision' && "bg-indigo-500/10 text-indigo-400",
                             tool.id === 'svg-preview' && "bg-teal-500/10 text-teal-400",
                             tool.id === 'png-to-svg' && "bg-cyan-500/10 text-cyan-400",
+                            tool.id === 'csv-gen' && "bg-orange-500/10 text-orange-400",
                             tool.id === 'lexicon' && "bg-amber-500/10 text-amber-400",
                             tool.id === 'chronos' && "bg-emerald-500/10 text-emerald-400",
-                            tool.id === 'forge' && "bg-rose-500/10 text-rose-400",
                           )}>
                             <tool.icon size={16} />
                           </div>
