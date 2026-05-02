@@ -154,7 +154,7 @@ const BentoCard = ({ id, title, description, icon: Icon, color, url, className, 
 
 const DevPortal = ({ onBack }: { onBack: () => void }) => {
   const links = [
-    { title: 'AI Image Generator', icon: Sparkles, url: 'https://replit.com/@zuckamirul/Amir-Svg-Ganaretor', color: 'bg-indigo-500' },
+    { title: 'AI Image Generator', icon: Sparkles, url: 'https://recraft-demo.vercel.app/', color: 'bg-indigo-500' },
     { title: 'Image Upscaler', icon: Maximize2, url: 'https://aistudio.google.com/apps/21eadafe-db2b-4d1a-a66c-237bcf6abd82?showPreview=true', color: 'bg-emerald-500' },
     { title: 'Metadata Gen', icon: Database, url: 'https://aistudio.google.com/apps/33ac9eb1-bb46-4dab-af0b-e1d743fdeabe?showAssistant=true', color: 'bg-rose-500' },
     { title: 'SVG Converter', icon: FileImage, url: 'https://aistudio.google.com/u/5/apps/832e3d6f-6b36-42ef-914c-1053fabf9c0c?showAssistant=true', color: 'bg-amber-500' },
@@ -406,7 +406,7 @@ export default function App() {
       description: 'Neural-powered image creation and synthesis engine.',
       icon: Sparkles,
       color: 'transparent',
-      url: 'https://gemini-svg-creator--zuckamirul.replit.app/',
+      url: 'https://recraft-demo.vercel.app/',
       className: 'md:col-span-2 md:row-span-2',
       preview: (
         <div className="flex gap-2">
