@@ -501,254 +501,7 @@ export default function App() {
     );
   }
 
-  if (!user || !isVerified) {
-    return (
-      <div className="min-h-screen bg-[#0a0a0a] text-white flex flex-col items-center justify-center p-8 relative overflow-hidden">
-        {/* Animated Background Gradients */}
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[140px] -z-10 animate-pulse" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-indigo-500/5 rounded-full blur-[140px] -z-10 animate-pulse" style={{ animationDelay: '2s' }} />
-        
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="w-full max-w-md"
-        >
-          <div className="text-center mb-10">
-            <div className="flex justify-center mb-6">
-              <div className="w-16 h-16 rounded-3xl bg-gradient-to-tr from-[#3b82f6] to-[#60a5fa] flex items-center justify-center ring-8 ring-white/5 shadow-2xl">
-                <Zap size={32} className="text-white fill-white" />
-              </div>
-            </div>
-            <h1 className="text-4xl font-bold tracking-tight mb-2">Amirhub</h1>
-            <p className="text-[#525252] text-xs uppercase tracking-[0.4em] font-mono">Secure Access Protocols</p>
-          </div>
-
-          <div className="bg-white/[0.02] border border-white/10 rounded-[40px] p-8 backdrop-blur-xl shadow-2xl relative overflow-hidden">
-            <AnimatePresence mode="wait">
-              {authView === 'options' && (
-                <motion.div
-                  key="options"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  className="space-y-4"
-                >
-                  <p className="text-center text-white/40 text-sm font-light mb-8 italic">Specify your authentication method to synchronize with the hub.</p>
-                  
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={handleGoogleSignIn}
-                    disabled={isProcessing}
-                    className="w-full py-5 px-6 bg-white text-black rounded-[24px] font-bold text-[10px] uppercase tracking-[0.3em] flex items-center justify-center gap-3 shadow-xl transition-all hover:bg-[#f0f0f0]"
-                  >
-                    {isProcessing ? <RefreshCw className="animate-spin" size={16} /> : <Globe size={16} />}
-                    Google Network
-                  </motion.button>
-
-                  <div className="relative py-4">
-                    <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/5"></div></div>
-                    <div className="relative flex justify-center text-[8px] uppercase tracking-[0.4em] font-bold text-[#3a3a3a] bg-[#0a0a0a] px-4">Internal Node</div>
-                  </div>
-
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => setAuthView('login')}
-                    className="w-full py-5 px-6 bg-white/[0.03] border border-white/10 text-white rounded-[24px] font-bold text-[10px] uppercase tracking-[0.3em] flex items-center justify-center gap-3 hover:bg-white/10 transition-all"
-                  >
-                    <Mail size={16} />
-                    Custom Identifier
-                  </motion.button>
-
-                  <p className="text-center mt-8 text-[9px] text-[#525252] uppercase tracking-[0.2em]">
-                    New member? <button onClick={() => setAuthView('signup')} className="text-white hover:underline">Request access</button>
-                  </p>
-                </motion.div>
-              )}
-
-              {authView === 'login' && (
-                <motion.div
-                  key="login"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                >
-                  <button onClick={() => setAuthView('options')} className="flex items-center gap-2 text-[10px] text-[#a1a1a1] hover:text-white mb-8 group transition-colors uppercase tracking-widest font-bold">
-                    <ArrowLeft size={12} className="group-hover:-translate-x-1 transition-transform" /> Back
-                  </button>
-                  
-                  <form onSubmit={handleEmailLogin} className="space-y-4">
-                    <div className="space-y-2">
-                       <label className="text-[10px] uppercase tracking-widest text-[#525252] font-bold ml-2">Email Identity</label>
-                       <input 
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="w-full bg-white/[0.03] border border-white/10 rounded-[20px] py-4 px-6 text-sm focus:outline-none focus:border-white/30 transition-all"
-                        placeholder="mail@node.com"
-                        required
-                       />
-                    </div>
-                    <div className="space-y-2">
-                       <label className="text-[10px] uppercase tracking-widest text-[#525252] font-bold ml-2">Secret Code</label>
-                       <input 
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="w-full bg-white/[0.03] border border-white/10 rounded-[20px] py-4 px-6 text-sm focus:outline-none focus:border-white/30 transition-all font-mono"
-                        placeholder="••••••••"
-                        required
-                       />
-                    </div>
-                    {authError && <p className="text-rose-500 text-[10px] font-bold uppercase tracking-widest text-center px-4">{authError}</p>}
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      disabled={isProcessing}
-                      type="submit"
-                      className="w-full py-5 bg-white text-black rounded-[24px] font-bold text-[10px] uppercase tracking-[0.3em] flex items-center justify-center gap-3 shadow-xl hover:bg-[#f0f0f0] transition-all"
-                    >
-                      {isProcessing ? <RefreshCw className="animate-spin" size={16} /> : <Fingerprint size={16} />}
-                      Authenticate
-                    </motion.button>
-                  </form>
-                </motion.div>
-              )}
-
-              {authView === 'signup' && (
-                <motion.div
-                  key="signup"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                >
-                  <button onClick={() => setAuthView('options')} className="flex items-center gap-2 text-[10px] text-[#a1a1a1] hover:text-white mb-8 group transition-colors uppercase tracking-widest font-bold">
-                    <ArrowLeft size={12} className="group-hover:-translate-x-1 transition-transform" /> Back
-                  </button>
-                  
-                  <form onSubmit={handleEmailSignUp} className="space-y-4">
-                    <div className="space-y-2">
-                       <label className="text-[10px] uppercase tracking-widest text-[#525252] font-bold ml-2">Public Handle</label>
-                       <input 
-                        type="text"
-                        value={displayName}
-                        onChange={(e) => setDisplayName(e.target.value)}
-                        className="w-full bg-white/[0.03] border border-white/10 rounded-[20px] py-4 px-6 text-sm focus:outline-none focus:border-white/30 transition-all"
-                        placeholder="Amirhub_User"
-                        required
-                       />
-                    </div>
-                    <div className="space-y-2">
-                       <label className="text-[10px] uppercase tracking-widest text-[#525252] font-bold ml-2">Email Address</label>
-                       <input 
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="w-full bg-white/[0.03] border border-white/10 rounded-[20px] py-4 px-6 text-sm focus:outline-none focus:border-white/30 transition-all"
-                        placeholder="mail@node.com"
-                        required
-                       />
-                    </div>
-                    <div className="space-y-2">
-                       <label className="text-[10px] uppercase tracking-widest text-[#525252] font-bold ml-2">Security Password</label>
-                       <input 
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="w-full bg-white/[0.03] border border-white/10 rounded-[20px] py-4 px-6 text-sm focus:outline-none focus:border-white/30 transition-all font-mono"
-                        placeholder="••••••••"
-                        required
-                       />
-                    </div>
-                    {authError && <p className="text-rose-500 text-[10px] font-bold uppercase tracking-widest text-center px-4">{authError}</p>}
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      disabled={isProcessing}
-                      type="submit"
-                      className="w-full py-5 bg-white text-black rounded-[24px] font-bold text-[10px] uppercase tracking-[0.3em] flex items-center justify-center gap-3 shadow-xl hover:bg-[#f0f0f0] transition-all"
-                    >
-                      {isProcessing ? <RefreshCw className="animate-spin" size={16} /> : <Sparkles size={16} />}
-                      Initialize Access
-                    </motion.button>
-                  </form>
-                </motion.div>
-              )}
-
-              {authView === 'otp' && (
-                <motion.div
-                  key="otp"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  className="text-center"
-                >
-                  <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto mb-6 text-emerald-400">
-                    <ShieldCheck size={32} />
-                  </div>
-                  <h2 className="text-xl font-bold mb-2">OTP Requirement</h2>
-                  <p className="text-[#a1a1a1] text-xs font-light mb-8 italic">A 6-digit verification code has been synchronized with your terminal. Please input it below.</p>
-                  
-                  {correctOtp && (
-                    <div className="bg-emerald-500/5 border border-emerald-500/10 rounded-xl p-4 mb-8">
-                       <p className="text-[10px] text-emerald-500 uppercase tracking-widest font-bold mb-1">Development Hint (OTP):</p>
-                       <p className="text-2xl font-mono tracking-[0.5em] text-white">{correctOtp}</p>
-                    </div>
-                  )}
-
-                  <div className="flex justify-center gap-2 mb-8">
-                    {otpCode.map((digit, idx) => (
-                      <input
-                        key={idx}
-                        id={`otp-${idx}`}
-                        type="text"
-                        maxLength={1}
-                        value={digit}
-                        onChange={(e) => {
-                          const val = e.target.value.replace(/[^0-9]/g, '');
-                          if (!val && e.nativeEvent.constructor.name !== 'InputEvent') return;
-                          const newOtp = [...otpCode];
-                          newOtp[idx] = val;
-                          setOtpCode(newOtp);
-                          if (val && idx < 5) document.getElementById(`otp-${idx+1}`)?.focus();
-                        }}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Backspace' && !otpCode[idx] && idx > 0) {
-                            document.getElementById(`otp-${idx-1}`)?.focus();
-                          }
-                        }}
-                        className="w-12 h-14 bg-white/[0.03] border border-white/10 rounded-xl text-center text-xl font-mono focus:border-emerald-500 focus:outline-none transition-all"
-                      />
-                    ))}
-                  </div>
-
-                  {authError && <p className="text-rose-500 text-[10px] font-bold uppercase tracking-widest mb-6">{authError}</p>}
-
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={handleVerifyOtp}
-                    className="w-full py-5 bg-emerald-500 text-black rounded-[24px] font-bold text-[10px] uppercase tracking-[0.3em] shadow-xl shadow-emerald-500/20 transition-all hover:bg-emerald-400"
-                  >
-                    Confirm Identity
-                  </motion.button>
-                  
-                  <button onClick={() => setAuthView('signup')} className="mt-6 text-[10px] text-[#525252] hover:text-white transition-colors uppercase tracking-widest font-bold">
-                    Resend Code
-                  </button>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-
-          <div className="mt-12 flex items-center justify-center gap-2 text-[8px] text-[#2a2a2a] uppercase tracking-[0.5em] font-mono">
-            Encrypted End-to-End via Firebase Security
-          </div>
-        </motion.div>
-      </div>
-    );
-  }
+  // Authentication is now optional. We no longer block the UI if !user.
 
   return (
     <div className="min-h-screen bg-[#060608] text-[#ededed] selection:bg-indigo-500 selection:text-white relative overflow-x-hidden">
@@ -790,7 +543,7 @@ export default function App() {
             <div className="w-px h-4 bg-white/10 mx-2" />
             <div className="flex items-center gap-2 text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-500/20">
               <ShieldCheck size={12} />
-              <span className="tabular-nums">Authorized Node</span>
+              <span className="tabular-nums">{user ? "Authorized Node" : "Guest Access"}</span>
             </div>
 
             <div className="relative">
@@ -848,26 +601,36 @@ export default function App() {
           </div>
   
           <div className="flex items-center gap-4">
-            <button 
-              onClick={() => setIsProfileOpen(true)}
-              className="flex items-center gap-3 bg-white/5 pl-1.5 pr-4 py-1.5 rounded-2xl border border-white/10 hover:bg-white/10 transition-all cursor-pointer group"
-            >
-              <div className="w-8 h-8 rounded-xl overflow-hidden border border-white/20 group-hover:border-indigo-400/50 transition-colors">
-                {user.photoURL ? (
-                  <img src={user.photoURL} alt={user.displayName || "User"} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-                ) : (
-                  <div className="w-full h-full bg-indigo-500/20 flex items-center justify-center">
-                    <User size={14} className="text-indigo-400" />
-                  </div>
-                )}
-              </div>
-              <div className="flex flex-col items-start">
-                <span className="text-[10px] font-bold text-white leading-none truncate max-w-[80px]">
-                  {user.displayName?.split(' ')[0] || 'Member'}
-                </span>
-                <span className="text-[8px] text-white/40 font-mono mt-0.5">Active Session</span>
-              </div>
-            </button>
+            {user ? (
+              <button 
+                onClick={() => setIsProfileOpen(true)}
+                className="flex items-center gap-3 bg-white/5 pl-1.5 pr-4 py-1.5 rounded-2xl border border-white/10 hover:bg-white/10 transition-all cursor-pointer group"
+              >
+                <div className="w-8 h-8 rounded-xl overflow-hidden border border-white/20 group-hover:border-indigo-400/50 transition-colors">
+                  {user.photoURL ? (
+                    <img src={user.photoURL} alt={user.displayName || "User"} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                  ) : (
+                    <div className="w-full h-full bg-indigo-500/20 flex items-center justify-center">
+                      <User size={14} className="text-indigo-400" />
+                    </div>
+                  )}
+                </div>
+                <div className="flex flex-col items-start">
+                  <span className="text-[10px] font-bold text-white leading-none truncate max-w-[80px]">
+                    {user.displayName?.split(' ')[0] || 'Member'}
+                  </span>
+                  <span className="text-[8px] text-white/40 font-mono mt-0.5">Active Session</span>
+                </div>
+              </button>
+            ) : (
+              <button 
+                onClick={handleGoogleSignIn}
+                className="flex items-center gap-2 px-6 py-2 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-xl hover:bg-indigo-500 transition-all shadow-lg shadow-indigo-500/20"
+              >
+                <LogIn size={14} />
+                Access Node
+              </button>
+            )}
           </div>
         </nav>
       </header>
@@ -1011,7 +774,7 @@ export default function App() {
               <div className="flex flex-col items-center mb-12">
                 <div className="relative group mb-6">
                   <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-white/10 ring-4 ring-white/5">
-                    {user.photoURL ? (
+                    {user?.photoURL ? (
                       <img src={user.photoURL} alt={user.displayName || "User"} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                     ) : (
                       <div className="w-full h-full bg-white/5 flex items-center justify-center">
@@ -1046,7 +809,7 @@ export default function App() {
                 <div className="space-y-3">
                   <label className="text-[10px] uppercase tracking-[0.2em] text-[#525252] font-bold ml-4">Verified Mail</label>
                   <div className="w-full bg-white/[0.01] border border-white/5 rounded-[20px] py-5 px-6 text-sm text-[#525252] italic cursor-not-allowed">
-                    {user.email}
+                    {user?.email}
                   </div>
                 </div>
 
@@ -1087,7 +850,7 @@ export default function App() {
               </form>
               
               <div className="mt-8 text-center">
-                <p className="text-[9px] text-[#2a2a2a] uppercase tracking-[0.3em] font-mono">Secure Node / UID: {user.uid.slice(0, 8)}...</p>
+                <p className="text-[9px] text-[#2a2a2a] uppercase tracking-[0.3em] font-mono">Secure Node / UID: {user?.uid.slice(0, 8)}...</p>
               </div>
             </motion.div>
           </motion.div>
