@@ -124,7 +124,8 @@ export default function Vision() {
       setActiveTab('preview');
     } catch (err: any) {
       console.error(err);
-      setError(err.message || 'Failed to generate SVG. Please check your API keys or try again.');
+      const errorMessage = err.message || 'Failed to generate SVG. Please check your API keys or try again.';
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -309,19 +310,54 @@ export default function Vision() {
              )}
 
              {error && (
-                <div className="bg-rose-500/10 border border-rose-500/20 rounded-xl p-3 text-[10px] text-rose-400 font-medium leading-relaxed mb-2 flex flex-col gap-3">
-                  <div className="flex gap-2">
-                    <X size={14} className="shrink-0" />
-                    <span>{error}</span>
+                <div className="bg-rose-500/10 border border-rose-500/20 rounded-xl p-4 text-[10px] text-rose-400 font-medium leading-relaxed mb-2 flex flex-col gap-3 shadow-2xl shadow-rose-500/5">
+                  <div className="flex gap-3">
+                    <div className="p-1.5 bg-rose-500/20 rounded-lg shrink-0 h-fit">
+                      <X size={14} className="text-rose-500" />
+                    </div>
+                    <div className="space-y-1">
+                      <p className="font-bold text-rose-300 uppercase tracking-widest text-[9px]">Neural Engine Exception</p>
+                      <p className="text-white/60 lowercase">{error}</p>
+                    </div>
                   </div>
-                  {(error.includes("429") || error.includes("quota")) && (
+
+                  {/* Actionable Feedback */}
+                  <div className="bg-white/5 rounded-lg p-3 border border-white/5 space-y-2">
+                    <p className="text-[8px] font-bold uppercase tracking-[0.2em] text-white/20">Protocol Resolution</p>
+                    
+                    {(error.toLowerCase().includes("key") || error.toLowerCase().includes("invalid") || error.toLowerCase().includes("403") || error.toLowerCase().includes("permission")) ? (
+                      <div className="flex items-start gap-2">
+                        <div className="w-1 h-1 rounded-full bg-indigo-400 mt-1.5 shrink-0" />
+                        <p className="text-indigo-300/80">API keys might be invalid or expired. Check your <button onClick={() => setShowSettings(true)} className="underline hover:text-indigo-200">Neural Settings</button> and ensure the keys are active.</p>
+                      </div>
+                    ) : (error.toLowerCase().includes("quota") || error.toLowerCase().includes("429") || error.toLowerCase().includes("limit") || error.toLowerCase().includes("balance") || error.toLowerCase().includes("402")) ? (
+                      <div className="flex items-start gap-2">
+                        <div className="w-1 h-1 rounded-full bg-amber-400 mt-1.5 shrink-0" />
+                        <p className="text-amber-300/80">Rate limit reached or balance exhausted. Wait 60 seconds, switch providers, or add multiple keys in settings to bypass limits.</p>
+                      </div>
+                    ) : (
+                      <div className="flex items-start gap-2">
+                        <div className="w-1 h-1 rounded-full bg-white/20 mt-1.5 shrink-0" />
+                        <p className="text-white/40 italic">Connectivity anomaly detected. Resetting the node or adjusting the creative directives may resolve this.</p>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex gap-2 pt-1">
                     <button 
                       onClick={handleGenerate}
-                      className="bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 py-1.5 px-3 rounded-lg border border-rose-500/30 transition-all font-bold uppercase tracking-widest text-[9px] w-fit"
+                      className="flex-1 bg-rose-500 text-white py-2 rounded-lg font-bold uppercase tracking-widest text-[9px] hover:bg-rose-400 transition-all flex items-center justify-center gap-2"
                     >
-                      Attempt Recovery
+                      <RefreshCw size={10} className={isLoading ? "animate-spin" : ""} />
+                      Retry Sync
                     </button>
-                  )}
+                    <button 
+                      onClick={() => setError(null)}
+                      className="px-3 bg-white/5 hover:bg-white/10 text-white/40 py-2 rounded-lg font-bold uppercase tracking-widest text-[9px] transition-all"
+                    >
+                      Dismiss
+                    </button>
+                  </div>
                 </div>
              )}
              <button

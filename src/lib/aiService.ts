@@ -258,11 +258,12 @@ ${imageData ? "ANALYZE THE ATTACHED IMAGE: Use the image as a primary reference 
                     if (isRateLimit && attempt < innerMaxRetries) {
                         attempt++;
                         const wait = Math.pow(2, attempt + 1) * 1000 + Math.random() * 1000;
+                        console.warn(`Node ${i+1} rate limited. Retrying...`);
                         await new Promise(r => setTimeout(r, wait));
                         continue;
                     }
                     console.error(`Node ${i+1} failed permanently:`, err);
-                    return []; // Return empty for this node so Promise.all doesn't fail
+                    return []; 
                 }
             }
             return [];
