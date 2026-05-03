@@ -650,6 +650,16 @@ export default function App() {
               CSV
             </motion.button>
 
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => window.open('https://amirhubsvg2jpg.vercel.app/', '_blank')}
+              className="flex items-center gap-2 px-6 py-3 bg-amber-500/10 border border-amber-500/20 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-amber-400 hover:bg-amber-500/20 transition-all shadow-lg shadow-amber-500/5 group"
+            >
+              <FileImage size={14} className="group-hover:rotate-12 transition-transform" />
+              SVG to JPG
+            </motion.button>
+
              <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
