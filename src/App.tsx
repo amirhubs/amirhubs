@@ -640,6 +640,16 @@ export default function App() {
           </div>
 
           <div className="flex items-center gap-3">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => window.open('https://amrhubscsv.vercel.app', '_blank')}
+              className="flex items-center gap-2 px-6 py-3 bg-rose-500/10 border border-rose-500/20 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-rose-400 hover:bg-rose-500/20 transition-all shadow-lg shadow-rose-500/5 group"
+            >
+              <FileSpreadsheet size={14} className="group-hover:rotate-12 transition-transform" />
+              CSV
+            </motion.button>
+
              <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
