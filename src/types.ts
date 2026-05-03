@@ -1,4 +1,4 @@
-export type ToolId = 'vision' | 'lexicon' | 'chronos' | 'svg-preview' | 'png-to-svg' | 'csv-gen' | null;
+export type ToolId = 'vision' | 'lexicon' | 'chronos' | 'svg-preview' | 'csv-gen' | null;
 
 export interface Note {
   id: string;
